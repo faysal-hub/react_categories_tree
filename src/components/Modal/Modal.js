@@ -6,6 +6,10 @@ const CategoryModal = (props) => {
   const { title, changeTitle, value, saveHandler, showModal, closeModal } =
     props;
 
+  const onSubmit = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <Modal centered show={showModal} onHide={closeModal}>
       <Modal.Header closeButton>
@@ -13,7 +17,7 @@ const CategoryModal = (props) => {
       </Modal.Header>
 
       <Modal.Body>
-        <Form>
+        <Form onSubmit={onSubmit}>
           <Form.Group controlId="title">
             {/* passing the value to the input field */}
             <Form.Control
