@@ -19,3 +19,20 @@
   outline: none;
   box-shadow: none;
 }
+
+@media only screen and (max-width: 600px) {
+  .entry {
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+  }
+
+  .entry p {
+    margin: 1px 0 2px;
+    padding: 0;
+  }
+
+  .btn {
+    line-height: 3px;
+  }
+}
