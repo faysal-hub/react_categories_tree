@@ -15,6 +15,11 @@ class App extends Component {
     ],
   };
 
+  // Will be called when page loaded for the first time
+  componentDidMount() {
+    localStorage.setItem('counter', 1);
+  }
+
   render() {
     return (
       <div className="App">

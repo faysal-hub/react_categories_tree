@@ -1,0 +1,21 @@
+.entry-container {
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  font-weight: 600;
+}
+
+.entry {
+  display: flex;
+  justify-content: space-between;
+  background-color: #fcfcfc;
+}
+
+.controls {
+  margin-left: 13px;
+}
+
+.btn:focus {
+  outline: none;
+  box-shadow: none;
+}

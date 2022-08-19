@@ -1,30 +1,39 @@
-import Category from './Category/Category';
+import Category from '../Category/Category';
 
 const Categories = ({ entries, trigger, editTrigger }) => {
-  //add category
+  //add category to the list of categories
   const addHandler = (index) => {
     const newSubOption = {
-      title: `Category article ${Math.floor(Math.random() * 100) + 1}`,
+      title: `Category article ${parseInt(localStorage.getItem('counter'))}`,
       subOptions: [],
     };
 
+    //update the localStorage counter
+    localStorage.setItem(
+      'counter',
+      parseInt(localStorage.getItem('counter')) + 1
+    );
+
+    //update the entries array
     entries[index].subOptions.push(newSubOption);
     trigger();
   };
-  //edit category
+
+  //edit the title of a category
   const editHandler = (index) => {
     const title = entries[index].title;
 
     editTrigger(title, index);
   };
-  //delete category
+
+  //delete a category and it's children
   const deleteHandler = (index) => {
     entries.splice(index, 1);
-
     trigger();
   };
 
   return (
+    //render the categories
     <ul style={{ listStyleType: 'none', marginTop: '5px' }}>
       {/* loop through categories */}
       {entries.map((entry, index) => {

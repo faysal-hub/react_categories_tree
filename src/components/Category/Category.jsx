@@ -10,23 +10,24 @@ import {
 
 import './Category.css';
 
-import Categories from '../Categories';
+import Categories from '../Categories/Categories';
+import Modal from '../Modal/Modal';
 
 class Category extends Component {
   constructor(props) {
     super(props);
     //set initial state
-    this.state = { subOptionsVisible: true };
+    this.state = { subOptionsVisible: true, showModal: false };
   }
 
-  //handle click on category title
-  handleClick = () => {
+  //handle click on category title for level collapse
+  titleHandleClick = () => {
     this.setState({
       subOptionsVisible: !this.state.subOptionsVisible,
     });
   };
 
-  //add suboption
+  // function to handle click on add button
   addHandleClick = () => {
     this.props.add();
     this.setState({
@@ -34,29 +35,32 @@ class Category extends Component {
     });
   };
 
-  //edit category
+  // function for edit a category
   editTrigger = (title) => {
     this.setState({
       edit: true,
       value: title,
       title: title,
+      showModal: true,
     });
   };
 
-  //Change the Category title
+  // function for close the modal
+  onCloseModal = () => {
+    this.setState({
+      showModal: false,
+    });
+  };
+
+  // function to handle change in title input
   titleChangedHandler = (event) => {
     const entryIndex = this.props.entry.subOptions.findIndex((s) => {
       return s.title === this.state.title;
     });
-
     const option = { ...this.props.entry.subOptions[entryIndex] };
-
     option.title = event.target.value;
-
     const options = [...this.props.entry.subOptions];
-
     options[entryIndex] = option;
-
     this.setState({
       edit: true,
       value: option.title,
@@ -64,7 +68,7 @@ class Category extends Component {
     });
   };
 
-  //save new title
+  // function to handle save button
   saveHandler = () => {
     if (this.props.entry.subOptions[this.state.saveIndex]) {
       this.props.entry.subOptions[this.state.saveIndex].title =
@@ -76,31 +80,17 @@ class Category extends Component {
   };
 
   render() {
+    // get the entry from props
     const hasSubOptions = this.props.entry.subOptions ? true : false;
 
     return (
       <>
-        {/* render category edit form */}
-        {this.state.edit && (
-          <div className="editor">
-            <p>Enter new title for {this.state.title}:</p>
-            <input
-              type="text"
-              onChange={this.titleChangedHandler}
-              value={this.state.value}
-            />
-            <button
-              className="save-btn"
-              type="button"
-              onClick={this.saveHandler}
-            ></button>
-          </div>
-        )}
-        {/* render category */}
+        {/* render a category */}
         <div className="entry-container">
           <div className="entry">
+            {/* render the title of the category */}
             <p
-              onClick={this.handleClick}
+              onClick={this.titleHandleClick}
               style={{
                 cursor:
                   hasSubOptions && this.props.entry.subOptions.length
@@ -114,6 +104,7 @@ class Category extends Component {
               <FontAwesomeIcon icon={faCircleChevronDown} />
               {` ${this.props.entry.title}`}
             </p>
+            {/* render the add, edit and delete button */}
             <div className="controls">
               {/* add button */}
               <OverlayTrigger
@@ -166,7 +157,7 @@ class Category extends Component {
               ]}
             </div>
           </div>
-          {/* render suboptions */}
+          {/* conditional rendering for sub options */}
           {hasSubOptions && this.state.subOptionsVisible && (
             <div>
               <ul style={{ listStyleType: 'none' }}>
@@ -181,6 +172,17 @@ class Category extends Component {
             </div>
           )}
         </div>
+        {/* render category edit form */}
+        {this.state.edit && (
+          <Modal
+            title={this.state.title}
+            changeTitle={this.titleChangedHandler}
+            value={this.state.value}
+            saveHandler={this.saveHandler}
+            showModal={this.state.showModal}
+            closeModal={this.onCloseModal}
+          />
+        )}
       </>
     );
   }
