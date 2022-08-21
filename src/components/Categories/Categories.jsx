@@ -34,7 +34,9 @@ const Categories = ({ entries, trigger, editTrigger }) => {
 
   return (
     //render the categories
-    <ul style={{ listStyleType: 'none', marginTop: '5px' }}>
+    <ul
+      style={{ listStyleType: 'none', marginTop: '5px', paddingLeft: '15px' }}
+    >
       {/* loop through categories */}
       {entries.map((entry, index) => {
         return (

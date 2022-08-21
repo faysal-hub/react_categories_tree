@@ -17,7 +17,14 @@ class Category extends Component {
   constructor(props) {
     super(props);
     //set initial state
-    this.state = { subOptionsVisible: true, showModal: false };
+    this.state = {
+      subOptionsVisible: true,
+      showModal: false,
+      edit: false,
+      title: null,
+      value: null,
+      saveIndex: null,
+    };
   }
 
   //handle click on category title for level collapse
@@ -35,7 +42,7 @@ class Category extends Component {
     });
   };
 
-  // function for edit a category
+  // function for opening the modal
   editTrigger = (title) => {
     this.setState({
       edit: true,
@@ -45,14 +52,14 @@ class Category extends Component {
     });
   };
 
-  // function for close the modal
+  // function for closing the modal
   onCloseModal = () => {
     this.setState({
       showModal: false,
     });
   };
 
-  // function to handle change in title input
+  // function to handle change in title input field
   titleChangedHandler = (event) => {
     const entryIndex = this.props.entry.subOptions.findIndex((s) => {
       return s.title === this.state.title;
@@ -160,7 +167,7 @@ class Category extends Component {
           {/* conditional rendering for sub options */}
           {hasSubOptions && this.state.subOptionsVisible && (
             <div>
-              <ul style={{ listStyleType: 'none' }}>
+              <ul style={{ listStyleType: 'none', paddingLeft: '15px' }}>
                 <Categories
                   entries={this.props.entry.subOptions}
                   trigger={() => {
